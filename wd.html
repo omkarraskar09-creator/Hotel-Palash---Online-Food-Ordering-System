@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Palash - Online Order</title>
+    <style>
+<script>
+let user = localStorage.getItem("hotelUser");
+
+if(!user)
+{
+    alert("Please Login First");
+    window.location.href = "login.html";
+}
+</script>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+
+        h1 {
+            background-color: darkgreen;
+            color: white;
+            padding: 15px;
+        }
+
+        .container {
+            width: 400px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px gray;
+            border-radius: 10px;
+        }
+
+        select, input {
+            width: 90%;
+            padding: 8px;
+            margin: 8px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        #bill {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Hotel Palash - Online Food Order</h1>
+
+<div class="container">
+    <h2>Customer Details</h2>
+    <input type="text" id="customerName" placeholder="Enter Name">
+    <input type="text" id="phone" placeholder="Enter Phone Number">
+
+    <h2>Select Item</h2>
+    <select id="item">
+        <option value="120">Veg Thali - ₹120</option>
+        <option value="150">Paneer Butter Masala - ₹150</option>
+        <option value="100">Fried Rice - ₹100</option>
+        <option value="80">Cold Drink - ₹80</option>
+    </select>
+
+    <input type="number" id="quantity" placeholder="Enter Quantity" min="1">
+
+    <button onclick="addItem()">Add Item</button>
+    <button onclick="generateBill()">Generate Bill</button>
+
+    <div id="bill"></div>
+
+    <button onclick="printBill()">Print Bill</button>
+    <button onclick="viewOrders()">Owner View Orders</button>
+</div>
+
+<script>
+    let orderList = [];
+
+    function addItem() {
+        let itemSelect = document.getElementById("item");
+        let quantity = document.getElementById("quantity").value;
+
+        if (quantity == "" || quantity <= 0) {
+            alert("Enter valid quantity");
+            return;
+        }
+
+        let itemName = itemSelect.options[itemSelect.selectedIndex].text;
+        let price = parseInt(itemSelect.value);
+        let total = price * quantity;
+
+        orderList.push({name: itemName, price: price, quantity: quantity, total: total});
+        alert("Item Added!");
+    }
+
+    function generateBill() {
+        let name = document.getElementById("customerName").value;
+        let phone = document.getElementById("phone").value;
+
+        if (name == "" || phone == "") {
+            alert("Enter customer details");
+            return;
+        }
+
+        if (orderList.length == 0) {
+            alert("No items added");
+            return;
+        }
+
+        let billDiv = document.getElementById("bill");
+        let totalAmount = 0;
+
+        let output = "<h3>Bill Receipt</h3>";
+        output += "Name: " + name + "<br>";
+        output += "Phone: " + phone + "<br><br>";
+
+        output += "<table>";
+        output += "<tr><th>Item</th><th>Qty</th><th>Total</th></tr>";
+
+        orderList.forEach(item => {
+            totalAmount += item.total;
+            output += "<tr><td>" + item.name + "</td><td>" + item.quantity + "</td><td>₹" + item.total + "</td></tr>";
+        });
+
+        let gst = totalAmount * 0.05;
+        let finalAmount = totalAmount + gst;
+
+        output += "</table><br>";
+        output += "Subtotal: ₹" + totalAmount + "<br>";
+        output += "GST (5%): ₹" + gst.toFixed(2) + "<br>";
+        output += "<strong>Grand Total: ₹" + finalAmount.toFixed(2) + "</strong>";
+
+        billDiv.innerHTML = output;
+
+        // Save order for owner
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        orders.push({customer: name, phone: phone, total: finalAmount});
+        localStorage.setItem("orders", JSON.stringify(orders));
+    }
+
+    function printBill() {
+        window.print();
+    }
+
+    function viewOrders() {
+        let orders = JSON.parse(localStorage.getItem("orders")) || [];
+        let output = "<h3>Today's Orders (Owner)</h3>";
+
+        orders.forEach(order => {
+            output += "Customer: " + order.customer + 
+                      " | Phone: " + order.phone + 
+                      " | Total: ₹" + order.total + "<br>";
+        });
+
+        document.getElementById("bill").innerHTML = output;
+    }
+</script>
+
+</body>
+</html>

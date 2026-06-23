@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Palash - Welcome</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url("https://images.unsplash.com/photo-1555992336-03a23c7b20ee") no-repeat center center/cover;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        /* Dark overlay */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 100, 0, 0.6);
+            z-index: -1;
+        }
+
+        h1 {
+            background-color: darkgreen;
+            color: white;
+            padding: 20px;
+            margin: 0;
+            letter-spacing: 2px;
+            animation: slideDown 1s ease;
+        }
+
+        .container {
+            width: 400px;
+            margin: 80px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            animation: floatBox 3s ease-in-out infinite;
+        }
+
+        h2 {
+            color: darkgreen;
+            margin-bottom: 25px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            background: linear-gradient(to right, darkgreen, green);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0, 128, 0, 0.5);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        @keyframes slideDown {
+            from {transform: translateY(-50px); opacity: 0;}
+            to {transform: translateY(0); opacity: 1;}
+        }
+
+        @keyframes floatBox {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+
+</head>
+<body>
+
+<h1>Welcome to Hotel Palash</h1>
+
+<div class="container">
+    <h2>Online Food Ordering System</h2>
+
+    <!-- Hotel/Food Image -->
+    <img src="C:\Users\asus\Downloads\hotel_palash.jpeg"
+         width="100%"
+         style="border-radius:10px; margin-bottom:20px;">
+
+   <button onclick="location.href='login.html'">Start Order</button>
+</div>
+
+</body>
+</html>
